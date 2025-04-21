@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:16
+    container_name: my-postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 674893
+      POSTGRES_DB: test_db
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    networks:
+      - my-network
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: db-api-server
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://host.docker.internal:5432/test_db
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: 674893
+    depends_on:
+      - db
+    networks:
+      - my-network
+
+volumes:
+  db_data:
+
+networks:
+  my-network:
