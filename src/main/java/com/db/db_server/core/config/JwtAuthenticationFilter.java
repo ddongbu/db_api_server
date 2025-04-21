@@ -1,5 +1,6 @@
 package com.db.db_server.core.config;
 
+import com.db.db_server.auth.exception.AuthenticationExceptions.*;
 import com.db.db_server.core.component.JwtTokenProvider;
 import com.db.db_server.core.service.CustomUserDetailsService;
 import jakarta.servlet.FilterChain;
@@ -43,8 +44,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 );
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             } else {
-                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-                return;
+                throw new TokenExpiredException();
             }
         }
         filterChain.doFilter(request, response);

@@ -26,6 +26,9 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
+    //"기능상 동작에는 차이가 거의 없지만,
+    // @Bean으로 등록하면 Spring이 의존성 주입(DI)과 라이프사이클 관리를 해주기 때문에
+    // 확장성, 테스트성, 유지보수성 측면에서 훨씬 좋다."
     @Bean
     public JwtAuthenticationFilter jwtAuthenticationFilter(JwtTokenProvider jwtTokenProvider,
                                                            CustomUserDetailsService customUserDetailsService) {

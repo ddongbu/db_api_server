@@ -2,6 +2,9 @@ package com.db.db_server.auth.exception;
 
 import com.db.db_server.core.enums.ErrorCode;
 import com.db.db_server.core.exception.GlobalException;
+import org.springframework.security.core.AuthenticationException;
+
+import static com.db.db_server.core.enums.ErrorCode.TOKEN_EXPIRED;
 
 
 public class AuthenticationExceptions {
@@ -12,14 +15,15 @@ public class AuthenticationExceptions {
         }
     }
 
+
     public static class UserPasswordMismatchException extends GlobalException {
         public UserPasswordMismatchException() {
             super(ErrorCode.USER_PASSWORD_MISMATCH);
         }
     }
-    public static class TokenExpiredException extends GlobalException {
+    public static class TokenExpiredException extends AuthenticationException {
         public TokenExpiredException() {
-            super(ErrorCode.TOKEN_EXPIRED);
+            super(TOKEN_EXPIRED.getErrorMessage());
         }
     }
 
